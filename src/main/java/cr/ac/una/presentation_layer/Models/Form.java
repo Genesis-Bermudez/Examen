@@ -1,16 +1,14 @@
 package cr.ac.una.presentation_layer.Models;
 
-import cr.ac.una.domain_layer.ClaseBase;
+import cr.ac.una.domain_layer.User;
 import cr.ac.una.service_layer.IServiceObserver;
 import cr.ac.una.utilities.ChangeType;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Form extends AbstractTableModel implements IServiceObserver<ClaseBase> {
+public class Form extends AbstractTableModel implements IServiceObserver<User> {
     @Override
-    public void onDataChanged(ChangeType type, ClaseBase entity) {
+    public void onDataChanged(ChangeType type, User entity) {
 
     }
 
