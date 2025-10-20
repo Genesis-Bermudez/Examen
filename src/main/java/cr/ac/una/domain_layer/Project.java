@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Proyect {
+public class Project {
     @XmlID
     public String code;
     public String description;
@@ -17,16 +17,16 @@ public class Proyect {
     @XmlIDREF
     public List<Task> tasks;
 
-    public Proyect(){}
+    public Project(){}
 
-    public Proyect(String code, User leader, String description) {
-        this.code = code;
+    public Project(String description, User leader) {
+        this.code = String.valueOf(Code.nextProjectCode());
         this.leader = leader;
         this.description = description;
         this.tasks = new ArrayList<Task>();
     }
 
-    public Proyect(int value){
+    public Project(int value){
         this.code = String.valueOf(value);
         this.leader = null;
         this.description = "";

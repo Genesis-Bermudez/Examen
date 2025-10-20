@@ -6,21 +6,16 @@ import java.util.Enumeration;
 
 public class MainWindow extends JFrame {
     private JPanel ContentPanel;
-    private JTabbedPane tabbedPane1;
     private JTabbedPane MainTabPanel;
 
     public MainWindow() {
-        setTitle("Sistema con Tabs");
+        setTitle("Sistema de Gestión de Proyectos");
         setContentPane(MainTabPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(800, 300);
         setLocationRelativeTo(null);
     }
 
-    /**
-     * Agrega pestañas al tab panel.
-     * @param tabs Diccionario con título y contenido del tab.
-     */
     public void AddTabs(Dictionary<String, JPanel> tabs) {
         Enumeration<String> keys = tabs.keys();
         while (keys.hasMoreElements()) {
@@ -28,5 +23,13 @@ public class MainWindow extends JFrame {
             JPanel contenido = tabs.get(titulo);
             MainTabPanel.addTab(titulo, contenido);
         }
+    }
+
+    public void EditarTareaView() {
+        //setTitle("Editando");
+        setContentPane(ContentPanel);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(800, 600);
+        setLocationRelativeTo(null);
     }
 }

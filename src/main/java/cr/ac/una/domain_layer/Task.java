@@ -17,8 +17,8 @@ public class Task {
     @XmlIDREF
     public User worker;
 
-    public Task(String code, String description, String finishDate, String priority, String status, User worker) {
-        this.code = code;
+    public Task(String description, String finishDate, String priority, String status, User worker) {
+        this.code = String.valueOf(Code.nextTaskCode());
         this.description = description;
         this.finishDate = finishDate;
         this.priority = priority;
