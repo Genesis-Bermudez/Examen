@@ -30,4 +30,9 @@ public class User {
     public boolean equals(User value){
         return this.id.equals(value.getId());
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

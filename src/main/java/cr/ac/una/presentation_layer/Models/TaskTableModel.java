@@ -1,78 +1,38 @@
 package cr.ac.una.presentation_layer.Models;
 
 import cr.ac.una.domain_layer.Task;
-import cr.ac.una.service_layer.IServiceObserver;
-import cr.ac.una.utilities.ChangeType;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskTableModel extends AbstractTableModel implements IServiceObserver<Task> {
-    private final String[] cols = {"Código", "Descripción", "Vence", "Prioridad", "Estado", "Asignado a"};
-    private final Class<?>[] types = { String.class, String.class, String.class};
-    private final List<Task> rows = new ArrayList<>();
+public class TaskTableModel extends AbstractTableModel {
 
-    public void setRows(List<Task> data) {
-        rows.clear();
-        if (data != null) rows.addAll(data);
-        fireTableDataChanged();
-    }
+    private final String[] cols = {"Código", "Descripción", "Fecha", "Prioridad", "Estado", "Responsable"};
+    private List<Task> rows;
 
-    public Task getAt(int row) { return (row >= 0 && row < rows.size()) ? rows.get(row) : null; }
+    public TaskTableModel() { this.rows = new ArrayList<>(); }
 
-    // ----- AbstractTableModel -----
+    public TaskTableModel(List<Task> rows) { this.rows = rows != null ? rows : new ArrayList<>(); }
+
     @Override public int getRowCount() { return rows.size(); }
     @Override public int getColumnCount() { return cols.length; }
-    @Override public String getColumnName(int column){ return cols[column]; }
-    @Override public Class<?> getColumnClass(int columnIndex) { return types[columnIndex];}
-    @Override public boolean isCellEditable(int rowIndex, int columnIndex) { return false; }
+    @Override public String getColumnName(int c) { return cols[c]; }
 
-    @Override public Object getValueAt(int rowIndex, int columnIndex) {
-        Task task = rows.get(rowIndex);
-        switch (columnIndex) {
-            case 0: return task.getCode();
-            case 1: return task;
-            default: return null;
-        }
-    }
-
-    // Observer
     @Override
-    public void onDataChanged(ChangeType type, Task task) {
-        switch (type) {
-            case CREATED: {
-                rows.add(task);
-                int i = rows.size() - 1;
-                fireTableRowsInserted(i, i);
-                break;
-            }
-
-            case UPDATED: {
-                int i = indexOf(task.getCode());
-                if (i >= 0) {
-                    rows.set(i, task);
-                    fireTableRowsUpdated(i, i);
-                }
-                break;
-            }
-
-            case DELETED: {
-                int i = indexOf(task.getCode());
-                if (i >= 0) {
-                    rows.remove(i);
-                    fireTableRowsDeleted(i, i);
-                }
-                break;
-            }
-        }
+    public Object getValueAt(int r, int c) {
+        Task t = rows.get(r);
+        return switch (c) {
+            case 0 -> t.getCode();
+            case 1 -> t.getDescription();
+            case 2 -> t.getFinishDate();
+            case 3 -> t.getPriority();
+            case 4 -> t.getStatus();
+            case 5 -> t.getWorker() != null ? t.getWorker().getName() : "";
+            default -> "";
+        };
     }
-
-    private int indexOf(String codigo) {
-        for (int i = 0; i < rows.size(); i++) {
-            if (rows.get(i).getCode().equals(codigo)) return i;
-        }
-        return -1;
+    public Task getAt(int row) {
+        return rows.get(row);
     }
-
 }
