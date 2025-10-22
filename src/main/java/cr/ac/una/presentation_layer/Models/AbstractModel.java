@@ -3,6 +3,10 @@ package cr.ac.una.presentation_layer.Models;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+/*
+* AbstractModel, ejemplos de otros profesores
+*/
+
 public abstract class AbstractModel {
     protected PropertyChangeSupport propertyChangeSupport;
 

@@ -6,10 +6,15 @@ import jakarta.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+* Data contiene todos los usuarios, proyectos y tareas.
+* Sigue el patrón Singleton, asi como la estructura de la data xml brindada
+ */
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Data {
-    private static Data instance=null;
+    private static Data instance = null;
 
     @XmlElementWrapper(name = "users")
     @XmlElement(name = "user")
@@ -23,11 +28,15 @@ public class Data {
     @XmlElement(name = "task")
     private List<Task> tasks;
 
+    // ---- Constructor ----
+
     private Data(){
         users = new ArrayList<User>();
         projects = new ArrayList<Project>();
         tasks = new ArrayList<Task>();
     }
+
+    // ---- getInstance ----
 
     public static Data getInstance(){
         if(instance == null){
@@ -35,6 +44,8 @@ public class Data {
         }
         return instance;
     }
+
+    // ---- Gets ----
 
     public List<User> getUsers() {
         return users;

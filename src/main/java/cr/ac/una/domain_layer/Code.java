@@ -1,5 +1,10 @@
 package cr.ac.una.domain_layer;
 
+/*
+* Clase para autogenerar los códigos de
+* Proyectos y de Tareas
+*/
+
 public class Code {
     private static int projectCode = 0;
     private static int taskCode = 0;

@@ -7,8 +7,6 @@ public interface IService<T> {
     void borrar(int id);
     void actualizar(T entity);
     List<T> leerTodos();
-    T leerPorId(int id);
-
     // Observer
     void addObserver(IServiceObserver<T> listener);
 }

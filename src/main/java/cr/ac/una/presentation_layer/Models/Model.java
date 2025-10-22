@@ -37,12 +37,14 @@ public class Model extends AbstractModel {
     }
 
     public Project getProject() { return project; }
+
     public void setProject(Project project) {
         this.project = project;
         firePropertyChange(PROJECT);
     }
 
     public Task getTask() { return task; }
+
     public void setTask(Task task) {
         this.task = task;
         firePropertyChange(TASK);

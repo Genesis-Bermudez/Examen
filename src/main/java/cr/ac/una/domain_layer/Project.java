@@ -17,10 +17,13 @@ public class Project {
     @XmlIDREF
     public List<Task> tasks;
 
+    // ---- Constructores ----
+
     public Project(){}
 
     public Project(String description, User leader) {
-        this.code = String.valueOf(Code.nextProjectCode());
+        int n = Code.nextProjectCode();
+        this.code = String.format("PJ-%04d", n);
         this.leader = leader;
         this.description = description;
         this.tasks = new ArrayList<Task>();
@@ -33,21 +36,22 @@ public class Project {
         this.tasks = null;
     }
 
+    // ---- Gets ----
+
     public String getCode(){
         return code;
     }
-
     public User getLeader(){
         return leader;
     }
-
     public String getDescription(){
         return description;
     }
-
     public List<Task> getTasks(){
         return tasks;
     }
+
+    // ---- addTask ----
 
     public void addTask(Task task) throws Exception {
         if(!tasks.contains(task)){
@@ -57,4 +61,5 @@ public class Project {
             throw new Exception("La tarea ya se encontraba en la lista");
         }
     }
+
 }

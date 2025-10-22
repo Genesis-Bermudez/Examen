@@ -9,6 +9,10 @@ import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/*
+* Vista para editar la tarea seleccionada
+*/
+
 public class EditTaskView extends JDialog implements PropertyChangeListener {
     private JPanel ContentPanel;
     private JPanel BasePanel;
@@ -27,12 +31,13 @@ public class EditTaskView extends JDialog implements PropertyChangeListener {
     private ProjectAndTaskController controller;
     private Model model;
 
+    // ---- Constructor ----
+
     public EditTaskView() {
         setContentPane(ContentPanel);
         setModal(true);
         getRootPane().setDefaultButton(OKButton);
-        setTitle("Editar tarea");
-        setSize(420, 200);
+        setSize(350, 150);
         setLocationRelativeTo(null);
 
         OKButton.addActionListener(e -> onOK());
@@ -50,6 +55,8 @@ public class EditTaskView extends JDialog implements PropertyChangeListener {
         inicializarCombos();
     }
 
+    // ---- Inicializador de los Combos ----
+
     private void inicializarCombos() {
         PrioritycomboBox1.removeAllItems();
         PrioritycomboBox1.addItem("Alta");
@@ -63,9 +70,11 @@ public class EditTaskView extends JDialog implements PropertyChangeListener {
         StatuscomboBox2.addItem("Resuelta");
     }
 
+    // ---- Botón Aceptar ----
+
     private void onOK() {
         if (controller == null || model == null) {
-            JOptionPane.showMessageDialog(this, "Error interno: controlador o modelo no configurado.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error interno", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         Task task = model.getTask();
@@ -82,18 +91,22 @@ public class EditTaskView extends JDialog implements PropertyChangeListener {
         }
 
         controller.updateTask(model.getProject(), task, priority, status);
+        controller.reloadTasksForProject(model.getProject());
+        model.setTasks(model.getProject().getTasks());
+
         JOptionPane.showMessageDialog(this, "Se ha editado la tarea", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         dispose();
     }
+
+    // ---- Botón Cancelar ----
 
     private void onCancel() {
         dispose();
     }
 
-    public void setController(ProjectAndTaskController controller) {
-        this.controller = controller;
-    }
+    // ---- Sets ----
 
+    public void setController(ProjectAndTaskController controller) { this.controller = controller; }
     public void setModel(Model model) {
         if (this.model != null) {
             try { this.model.removePropertyChangeListener(this); } catch (Exception ignored) {}
@@ -107,6 +120,8 @@ public class EditTaskView extends JDialog implements PropertyChangeListener {
         }
     }
 
+    // ---- PropertyChange ----
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (model == null) return;
@@ -115,8 +130,8 @@ public class EditTaskView extends JDialog implements PropertyChangeListener {
             if (t != null) {
                 PrioritycomboBox1.setSelectedItem(t.getPriority());
                 StatuscomboBox2.setSelectedItem(t.getStatus());
+                setTitle("Editando: " + t.getCode() + " - " + (t.getDescription() == null ? "" : t.getDescription()));
             } else {
-                // limpiar selección si no hay tarea
                 PrioritycomboBox1.setSelectedIndex(-1);
                 StatuscomboBox2.setSelectedIndex(-1);
             }

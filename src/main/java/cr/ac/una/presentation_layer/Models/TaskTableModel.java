@@ -11,13 +11,27 @@ public class TaskTableModel extends AbstractTableModel {
     private final String[] cols = {"Código", "Descripción", "Fecha", "Prioridad", "Estado", "Responsable"};
     private List<Task> rows;
 
-    public TaskTableModel() { this.rows = new ArrayList<>(); }
+    // ---- Constructores ----
 
-    public TaskTableModel(List<Task> rows) { this.rows = rows != null ? rows : new ArrayList<>(); }
+    public TaskTableModel() {
+        this.rows = new ArrayList<>();
+    }
 
-    @Override public int getRowCount() { return rows.size(); }
-    @Override public int getColumnCount() { return cols.length; }
-    @Override public String getColumnName(int c) { return cols[c]; }
+    public TaskTableModel(List<Task> rows) {
+        this.rows = rows != null ? rows : new ArrayList<>();
+    }
+
+    // ---- Gets ----
+
+    @Override
+    public int getRowCount() { return rows.size(); }
+    @Override
+    public int getColumnCount() { return cols.length; }
+    @Override
+    public String getColumnName(int c) { return cols[c]; }
+    public Task getAt(int row) { return rows.get(row); }
+
+    // ---- GetValueAt ----
 
     @Override
     public Object getValueAt(int r, int c) {
@@ -31,8 +45,5 @@ public class TaskTableModel extends AbstractTableModel {
             case 5 -> t.getWorker() != null ? t.getWorker().getName() : "";
             default -> "";
         };
-    }
-    public Task getAt(int row) {
-        return rows.get(row);
     }
 }

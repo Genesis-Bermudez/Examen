@@ -24,11 +24,37 @@
     </users>
     <projects>
         <project>
-            <code>0</code>
-            <description>hola</description>
-            <leader>U003</leader>
+            <code>PJ-0000</code>
+            <description>Sistema de gestión de inventario para pymes</description>
+            <leader>U001</leader>
+            <tasks>
+                <tasks>T-000</tasks>
+                <tasks>T-001</tasks>
+            </tasks>
+        </project>
+        <project>
+            <code>PJ-0001</code>
+            <description>Plataforma web para reservas de hotel en línea</description>
+            <leader>U004</leader>
             <tasks/>
         </project>
     </projects>
-    <tasks/>
+    <tasks>
+        <task>
+            <code>T-000</code>
+            <description>Configurar base de datos inicial</description>
+            <finishDate>2025-09-05</finishDate>
+            <priority>Alta</priority>
+            <status>En-revisión</status>
+            <worker>U002</worker>
+        </task>
+        <task>
+            <code>T-001</code>
+            <description>Diseñar esquema de autenticación</description>
+            <finishDate>2025-09-10</finishDate>
+            <priority>Media</priority>
+            <status>En-progreso</status>
+            <worker>U003</worker>
+        </task>
+    </tasks>
 </data>

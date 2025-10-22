@@ -1,18 +1,9 @@
 package cr.ac.una.data_access_layer;
 
-import cr.ac.una.domain_layer.Project;
-
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,10 +15,14 @@ public class DataFileStore implements IFileStore<Data>{
 
     private final File xmlFile;
 
+    // ---- Constructor ----
+
     public DataFileStore(File xmlFile) {
         this.xmlFile = xmlFile;
         ensureFile();
     }
+
+    // ---- readALL ----
 
     @Override
     public List<Data> readAll() {
@@ -47,6 +42,8 @@ public class DataFileStore implements IFileStore<Data>{
         }
     }
 
+    // ---- writeAll ----
+
     @Override
     public void writeAll(List<Data> dataList) {
         if (dataList == null || dataList.isEmpty()) return;
@@ -64,6 +61,8 @@ public class DataFileStore implements IFileStore<Data>{
             ex.printStackTrace();
         }
     }
+
+    // ---- ensureFile ----
 
     private void ensureFile() {
         try {

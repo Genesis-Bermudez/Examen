@@ -24,6 +24,7 @@ public class Main {
                 frame.setContentPane(view.getContentPanel());
                 frame.pack();
                 frame.setLocationRelativeTo(null);
+                frame.setSize(780, 600);
                 frame.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();

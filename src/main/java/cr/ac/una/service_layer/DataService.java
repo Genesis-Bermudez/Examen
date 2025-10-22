@@ -16,9 +16,13 @@ public class DataService implements IService<Project> {
     private final IFileStore<Data> dataFileStore;
     private final List<IServiceObserver<Project>> observers = new ArrayList<>();
 
+    // ---- Constructor ----
+
     private DataService() {
         this.dataFileStore = new DataFileStore(new File("data.xml"));
     }
+
+    // ---- GetInstance ----
 
     public static DataService getInstance() {
         if (instance == null) {
@@ -27,18 +31,20 @@ public class DataService implements IService<Project> {
         return instance;
     }
 
-    // ------------------ MÉTODOS INTERNOS ------------------
+    // ---- GetData ----
 
     private Data getData() {
         List<Data> all = dataFileStore.readAll();
         return (all.isEmpty()) ? Data.getInstance() : all.get(0);
     }
 
+    // ---- Save ----
+
     private void save(Data data) {
         dataFileStore.writeAll(List.of(data));
     }
 
-    // ------------------ PROYECTOS ------------------
+    // ---- Proyectos ----
 
     public void agregarProyecto(Project p) {
         Data data = getData();
@@ -82,55 +88,59 @@ public class DataService implements IService<Project> {
         notify(ChangeType.UPDATED, project);
     }
 
-    public List<Project> leerProyectos() {
-        return leerTodos();
-    }
+    public List<Project> leerProyectos() { return leerTodos(); }
 
     @Override
-    public List<Project> leerTodos() {
-        return getData().getProjects();
-    }
+    public List<Project> leerTodos() { return getData().getProjects(); }
 
-    @Override
-    public Project leerPorId(int id) {
-        return getData().getProjects().stream()
-                .filter(p -> p.getCode().equals(String.valueOf(id)))
-                .findFirst().orElse(null);
-    }
+    // ---- Usuarios ----
 
-    // ------------------ USUARIOS ------------------
+    public List<User> readUsers() { return getData().getUsers(); }
 
-    public List<User> readUsers() {
-        return getData().getUsers();
-    }
-
-    // ------------------ TAREAS ------------------
+    // ---- Tareas ----
 
     public void agregarTareas(Project project, Task task) {
         Data data = getData();
+
         for (Project p : data.getProjects()) {
             if (p.getCode().equals(project.getCode())) {
                 p.getTasks().add(task);
-                data.getTasks().add(task);
                 break;
             }
         }
+        data.getTasks().add(task);
         save(data);
         notify(ChangeType.UPDATED, project);
     }
 
-    public void actualizarTarea(Project project, Task tarea) {
+    public void actualizarTarea(Project project, Task task) {
         Data data = getData();
+        for (Project p : data.getProjects()) {
+            if (p.getCode().equals(project.getCode())) {
+                List<Task> tasks = p.getTasks();
+                for (int i = 0; i < tasks.size(); i++) {
+                    if (tasks.get(i).getCode().equals(task.getCode())) {
+                        tasks.set(i, task);
+                        break;
+                    }
+                }
+            }
+        }
         save(data);
-        notify(ChangeType.UPDATED, project);
     }
 
-    // ------------------ OBSERVADORES ------------------
+    public List<Task> leerTodasTareas() {
+        return getData().getTasks();
+    }
+
+    public List<Task> leerTareas() {
+        return leerTodasTareas();
+    }
+
+    // ---- Observadores ----
 
     @Override
-    public void addObserver(IServiceObserver<Project> l) {
-        if (l != null) observers.add(l);
-    }
+    public void addObserver(IServiceObserver<Project> l) { if (l != null) observers.add(l); }
 
     private void notify(ChangeType t, Project e) {
         for (IServiceObserver<Project> l : observers) {
